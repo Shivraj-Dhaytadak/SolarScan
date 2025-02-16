@@ -51,10 +51,10 @@ def retrival_chain(PATH ,INPUT):
             search_kwargs={'k': 6}
             ),combine_docs_chain=stuff_chain)
 
-    return retrieval_chain.invoke({'input': INPUT})
-    # for i in retrieval_chain.stream({"input": """explain the code base in detail please """}):
-    # try:
-    #     if i['answer']:
-    #         print(i['answer'], end="",flush=True)
-    # except:
-    #     pass
+    # return retrieval_chain.invoke({'input': INPUT})
+    for i in retrieval_chain.stream({'input': INPUT}):
+        try:
+            if i['answer']:
+                yield i['answer']
+        except:
+            pass

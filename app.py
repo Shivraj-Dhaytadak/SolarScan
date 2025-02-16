@@ -3,7 +3,6 @@ from fastapi.responses import StreamingResponse
 from pydantic import BaseModel
 from code_analysis import vectorrizer,retrival_chain
 
-
 app = FastAPI()
 
 class Project(BaseModel):
@@ -26,4 +25,5 @@ async def project_scan(project:Project):
 
 @app.post("/query")
 async def get_query_response(query : Query):
-    return retrival_chain(query.dir , query.input)
+    streamer =  retrival_chain(query.dir , query.input)
+    return StreamingResponse(streamer , media_type="text/plain")
